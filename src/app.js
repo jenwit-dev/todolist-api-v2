@@ -5,9 +5,10 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import chalk from 'chalk';
 
-import todoRoute from './routes/todo';
-import notFoundMiddleware from './middlewares/not-found';
-import errorMiddleware from './middlewares/error';
+import todoRoute from './routes/todo.js';
+import authRoute from './routes/auth.js';
+import notFoundMiddleware from './middlewares/not-found.js';
+import errorMiddleware from './middlewares/error.js';
 
 const app = express();
 
@@ -20,12 +21,11 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-app.use('/todos', todoRoute);
+app.use('/auth', authRoute);
+app.use('api/todos', todoRoute);
 
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
 const port = process.env.PORT || 8080;
-app.listen(port, () =>
-  console.log(chalk.blueBright(`server running on port ${port}`))
-);
+app.listen(port, () => console.log(chalk.blueBright(`server running on port ${port}`)));
